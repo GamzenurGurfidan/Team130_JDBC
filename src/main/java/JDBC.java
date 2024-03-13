@@ -1,6 +1,4 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class JDBC {
 
@@ -44,6 +42,36 @@ public class JDBC {
         // 3. Adim: SQL QUERYsi olustur
 
         String query = "SELECT * FROM u168183796_qaloantec.users";
+
+        Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+
+        // 4. Adim: Query Execute Et,
+
+        ResultSet resultSet = statement.executeQuery(query);
+
+        // 5. Adim: Sonuclari işle
+
+        resultSet.next();                               // birinci satirdaki
+        System.out.println(resultSet.getString("firstname"));   // firstname columndaki bilgiyi getirir
+
+        resultSet.next();
+
+        System.out.println(resultSet.getString("firstname"));
+
+        resultSet.next();
+
+        System.out.println(resultSet.getString("lastname"));
+
+        System.out.println(resultSet.getString("country_code"));
+
+        resultSet.absolute(10);
+
+        System.out.println(resultSet.getString("email"));
+
+        resultSet.first();
+
+        System.out.println(resultSet.getInt("id"));
+
 
 
     }
