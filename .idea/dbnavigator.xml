@@ -6,7 +6,7 @@
   </component>
   <component name="DBNavigator.Project.DataEditorManager">
     <record-view-column-sorting-type value="BY_INDEX" />
-    <value-preview-text-wrapping value="true" />
+    <value-preview-text-wrapping value="false" />
     <value-preview-pinned value="false" />
   </component>
   <component name="DBNavigator.Project.DatabaseBrowserManager">
@@ -21,7 +21,36 @@
 WHERE amount BETWEEN 100 AND 500;
 
 select name from u168183796_qaloantec.cron_schedules 
-LIMIT 2;]]></console>
+LIMIT 2;
+
+
+UPDATE u168183796_qaloantec.users 
+SET mobile = 1112222333
+WHERE username LIKE '%e_';
+
+
+SELECT mobile, username FROM u168183796_qaloantec.users
+WHERE username LIKE '%e_';
+
+Insert Into u168183796_qaloantec.admin_password_resets (id,email,token,status)
+VALUES (?,?,?,?);
+
+SELECT * FROM u168183796_qaloantec.admin_password_resets
+WHERE id = 222;
+
+SELECT id FROM u168183796_qaloantec.update_logs
+
+DELETE FROM u168183796_qaloantec.update_logs
+WHERE id = ?;
+
+
+SELECT * FROM u168183796_qaloantec.support_attachments;
+
+INSERT INTO u168183796_qaloantec.support_attachments (id, support_message_id, attachment, created_at)
+VALUES (?,?,?,?);
+
+DELETE FROM u168183796_qaloantec.support_attachments
+WHERE id = ?;]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseEditorStateManager">
@@ -29,8 +58,6 @@ LIMIT 2;]]></console>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
     <open-files>
-      <object connection-id="0bff5bec-b448-49b3-9858-3089a46e4b53" object-ref="schemas/u168183796_qaloantec/tables/users" />
-      <object connection-id="0bff5bec-b448-49b3-9858-3089a46e4b53" object-ref="schemas/u168183796_qaloantec/tables/pages" />
       <object connection-id="0bff5bec-b448-49b3-9858-3089a46e4b53" object-ref="consoles/Team130jdbc" />
     </open-files>
   </component>
