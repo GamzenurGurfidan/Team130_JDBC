@@ -57,9 +57,7 @@ WHERE id = ?;]]></console>
     <last-used-providers />
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files>
-      <object connection-id="0bff5bec-b448-49b3-9858-3089a46e4b53" object-ref="consoles/Team130jdbc" />
-    </open-files>
+    <open-files />
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="0bff5bec-b448-49b3-9858-3089a46e4b53" />

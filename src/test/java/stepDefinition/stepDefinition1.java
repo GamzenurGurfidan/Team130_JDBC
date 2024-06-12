@@ -13,7 +13,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 
@@ -33,8 +35,7 @@ public class stepDefinition1 {
 
     int id;
 
-
-
+    Map<String, Integer> become_inst_role;
 
 
     @Given("Database baglantisi kurulur")
@@ -118,6 +119,7 @@ public class stepDefinition1 {
 
 
     }
+
     @Given("UpdateQuery01 sonuclari listelenir")
     public void update_query01_sonuclari_listelenir() {
 
@@ -134,17 +136,18 @@ public class stepDefinition1 {
         query = queryManage.getUpdateQuery02();
         preparedStatement = JDBCReusableMethods.getConnection().prepareStatement(query);
 
-        preparedStatement.setInt(1,123456);
-        preparedStatement.setString(2,"%e_");
+        preparedStatement.setInt(1, 123456);
+        preparedStatement.setString(2, "%e_");
 
         rowCount = preparedStatement.executeUpdate();
 
 
     }
+
     @Given("Prepared UpdateQuery01 sonuclari listelenir")
     public void prepared_update_query01_sonuclari_listelenir() {
 
-        assertEquals(18,rowCount);
+        assertEquals(18, rowCount);
     }
 
 
@@ -155,18 +158,19 @@ public class stepDefinition1 {
         query = queryManage.getInsertQuery03();
         preparedStatement = JDBCReusableMethods.getConnection().prepareStatement(query);
 
-        preparedStatement.setInt(1,222);
+        preparedStatement.setInt(1, 222);
         preparedStatement.setString(2, "teamyuz130@gmail.com");
-        preparedStatement.setString(3,"t130.00");
-        preparedStatement.setInt(4,22);
+        preparedStatement.setString(3, "t130.00");
+        preparedStatement.setInt(4, 22);
 
         rowCount = preparedStatement.executeUpdate();
 
     }
+
     @Given("InsertQuery sonuclari dogrulanir")
     public void ınsert_query_sonuclari_dogrulanir() {
 
-        assertEquals(1,rowCount);
+        assertEquals(1, rowCount);
     }
 
 
@@ -196,6 +200,7 @@ public class stepDefinition1 {
         assertFalse(resultSet.next());
 
     }
+
     @Given("Datanin silindigini dogrular")
     public void datanin_silindigini_dogrular() {
         // bu methoddaki kodlar üst methoda tasindi
@@ -210,11 +215,11 @@ public class stepDefinition1 {
         query = queryManage.getDeleteQuery02Insert();
         preparedStatement = JDBCReusableMethods.getConnection().prepareStatement(query);
 
-        id = faker.number().numberBetween(700,900);
+        id = faker.number().numberBetween(700, 900);
 
-        preparedStatement.setInt(1,id);
-        preparedStatement.setInt(2,600);
-        preparedStatement.setString(3,"658401a61409c1703149990.png");
+        preparedStatement.setInt(1, id);
+        preparedStatement.setInt(2, 600);
+        preparedStatement.setString(3, "658401a61409c1703149990.png");
         preparedStatement.setDate(4, Date.valueOf(LocalDate.now()));
 
         rowCount = preparedStatement.executeUpdate();
@@ -222,6 +227,7 @@ public class stepDefinition1 {
         System.out.println("id = " + id);
 
     }
+
     @Given("support_attachments tablosuna eklenen veri silinir")
     public void support_attachments_tablosuna_eklenen_veri_silinir() throws SQLException {
         query = queryManage.getDeleteQuery02();
@@ -232,9 +238,10 @@ public class stepDefinition1 {
 
         System.out.println(id + " id numaralı veri silindi");
 
-        assertEquals(1,rowCount);
+        assertEquals(1, rowCount);
 
     }
+
     @Given("Verinin silindigi dogrulanir")
     public void verinin_silindigi_dogrulanir() throws SQLException {
 
@@ -246,9 +253,88 @@ public class stepDefinition1 {
 
         // assertFalse(resultSet.next());
 
-        if(!resultSet.next()){
+        if (!resultSet.next()) {
             System.out.println(id + " id numarali veri bulunamadi");
         }
 
     }
+
+    @Given("Query hazırlanır")
+    public void query_hazırlanır() throws SQLException {
+        query = queryManage.getBecome_instructor();
+        resultSet = JDBCReusableMethods.getStatement().executeQuery(query);
+
+    }
+
+    @Given("alınan listede {string} ve {int} dogrulanir")
+    public void alınan_listede_ve_dogrulanir(String role, Integer record_count) throws SQLException {
+        become_inst_role = new HashMap<>();
+
+        while (resultSet.next()){
+            become_inst_role.put(resultSet.getString("role"),resultSet.getInt("record_count"));
+        }
+        assertTrue("Role not found" + role , become_inst_role.containsKey(role));
+        assertEquals(record_count, become_inst_role.get(role));
+    }
+
+    @Given("insert query hazirlanir")
+    public void insert_query_hazirlanir() throws SQLException {
+        query = queryManage.getUs03();
+        rowCount = JDBCReusableMethods.getStatement().executeUpdate(query);
+    }
+
+    @Given("{int} insert edildigi dogrulanir")
+    public void insert_edildigi_dogrulanir(int row) {
+        assertEquals(1, rowCount);
+    }
+
+    @Given("prepare query of the data with start_date in the webinars table")
+    public void prepare_query_of_the_data_with_start_dat_in_the_webinars_table() throws SQLException {
+        query = queryManage.getUs08webinars();
+        resultSet = JDBCReusableMethods.getStatement().executeQuery(query);
+    }
+    @Given("Verifies id {int} the returned result")
+    public void verifies_id_the_returned_result(int expectedID) throws SQLException {
+        resultSet.next();
+        id = resultSet.getInt("id");
+        assertEquals(expectedID,id);
+    }
+
+
+//-------------------------------------------
+
+    @Given("prepare query of data full_name in the users table with webinars table")
+    public void prepare_query_of_data_full_name_in_the_users_table_with_webinars_table() throws SQLException {
+        query = queryManage.getUs33webinars();
+        resultSet = JDBCReusableMethods.getStatement().executeQuery(query);
+    }
+    @Given("Verifies name {string} the returned result")
+    public void verifies_id_the_returned_result(String expFullName) throws SQLException {
+        resultSet.next();
+        Object actualName = resultSet.getString(1);
+        assertEquals(expFullName,actualName);
+
+    }
+    @Given("Database connection is closed")
+    public void database_connection_is_closed() {
+        JDBCReusableMethods.closeConnection();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
